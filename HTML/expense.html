@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense</title>
+  <link rel="stylesheet" href="../CSS/expense.css">
+</head>
+<body>
+  <h2>Add Expense</h2>
+
+  <form id="expense-form">
+    <label>Amount (₹): <input type="number" id="amount" required></label><br>
+
+    <label >Category:
+      <select id="category" required>
+        <option value="Groceries">Groceries</option>
+        <option value="Rent">Rent</option>
+        <option value="Utilities">Utilities</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Transport">Transport</option>
+      </select>
+    </label><br>
+    <label >Date: <input type="date" id="date" required></label><br>
+    <label >Tags (comma-separeted): <input type="text" id="tags"></label><br>
+    <label>Note: <textarea id="note" rows="2"></textarea></label><br>
+    <label>Upload Receipt: <input type="file" id="receipt"></label><br>
+    <button type="submit">Add Expense</button>
+  </form>
+
+  <script type="module" src="../JS/expense.js"></script>
+</body>
+</html>

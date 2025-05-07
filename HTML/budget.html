@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget</title>
+  <link rel="stylesheet" href="../CSS/budget.css">
+</head>
+<body>
+  <h2>Set Budget</h2>
+  <form id="budget-form">
+    <label >Category: 
+      <select id="category" required>
+        <option value="Groceries">Groceries</option>
+        <option value="Rent">Rent</option>
+        <option value="Utilities">Utilities</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Transport">Transport</option>
+      </select></label>
+      <label>Amount (₹): <input type="number" id="budget-amount" required></label>
+      <label>Month: <input type="month" id="budget-month" required></label>
+      <button type="submit">Set Budget</button>
+  </form>
+
+  <script type="module" src="../JS/budget.js"></script>
+</body>
+</html>
