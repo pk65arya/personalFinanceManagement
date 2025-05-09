@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense</title>
-  <link rel="stylesheet" href="../CSS/expense.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Expense</title>
+  <link rel="stylesheet" href="../CSS/expense.css" />
 </head>
 <body>
-  <h2>Add Expense</h2>
+  <nav>
+    <h2>🧾 Add Expense</h2>
+    <a href="dashboard.html">⬅ Back to Dashboard</a>
+  </nav>
 
   <form id="expense-form">
-    <label>Amount (₹): <input type="number" id="amount" required></label><br>
+    <label>Amount (₹):
+      <input type="number" id="amount" required />
+    </label>
 
-    <label >Category:
+    <label>Category:
       <select id="category" required>
         <option value="Groceries">Groceries</option>
         <option value="Rent">Rent</option>
@@ -20,11 +25,24 @@
         <option value="Entertainment">Entertainment</option>
         <option value="Transport">Transport</option>
       </select>
-    </label><br>
-    <label >Date: <input type="date" id="date" required></label><br>
-    <label >Tags (comma-separeted): <input type="text" id="tags"></label><br>
-    <label>Note: <textarea id="note" rows="2"></textarea></label><br>
-    <label>Upload Receipt: <input type="file" id="receipt"></label><br>
+    </label>
+
+    <label>Date:
+      <input type="date" id="date" required />
+    </label>
+
+    <label>Tags:
+      <input type="text" id="tags" placeholder="e.g. food, monthly" />
+    </label>
+
+    <label>Note:
+      <textarea id="note" rows="2" placeholder="Optional notes..."></textarea>
+    </label>
+
+    <label>Upload Receipt:
+      <input type="file" id="receipt" accept="image/*" />
+    </label>
+
     <button type="submit">Add Expense</button>
   </form>
 

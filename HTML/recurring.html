@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recurring Payments</title>
+  <link rel="stylesheet" href="../CSS/recurring.css" />
+</head>
+<body>
+  <nav>
+    <h2>Recurring Payments</h2>
+  </nav>
+
+  <form id="recurring-form">
+    <label>
+      Payment Name:
+      <input type="text" id="payment-name" placeholder="e.g., Internet Bill" required />
+    </label>
+    <label>
+      Amount (₹):
+      <input type="number" id="amount" required />
+    </label>
+    <label>
+      Frequency:
+      <select id="frequency" required>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+    </label>
+    <label>
+      Start Date:
+      <input type="date" id="start-date" required />
+    </label>
+    <label>
+      Note:
+      <textarea id="note" rows="2"></textarea>
+    </label>
+    <button type="submit">Add Recurring Payment</button>
+  </form>
+
+  <script type="module" src="../JS/recurring.js"></script>
+</body>
+</html>

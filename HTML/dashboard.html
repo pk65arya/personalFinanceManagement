@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Personal Finance</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+</head>
+<body>
+  <nav>
+    <h2>👛 Personal Finance Dashboard</h2>
+    <button id="logout-btn">Logout</button>
+  </nav>
+
+  <section class="dashboard">
+    <div class="card" onclick="location.href='expense.html'">
+      <h3>➕ Add Expense</h3>
+      <p>Log your spending with receipts and notes.</p>
+    </div>
+    <div class="card" onclick="location.href='income.html'">
+      <h3>💰 Add Income</h3>
+      <p>Track your income sources monthly.</p>
+    </div>
+    <div class="card" onclick="location.href='budget.html'">
+      <h3>📊 Set Budget</h3>
+      <p>Create monthly budgets by category.</p>
+    </div>
+    <div class="card" onclick="location.href='summary-report.html'">
+      <h3>📈 View Reports</h3>
+      <p>See spending charts and summary.</p>
+    </div>
+  </section>
+
+  <script type="module" src="../JS/dashboard.js"></script>
+</body>
+</html>

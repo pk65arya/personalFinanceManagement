@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Income</title>
+  <link rel="stylesheet" href="../CSS/income.css" />
+</head>
+<body>
+  <nav>
+    <h2>💼 Add Income</h2>
+    <a href="dashboard.html">⬅ Back to Dashboard</a>
+  </nav>
+
+  <form id="income-form">
+    <label>Amount (₹): <input type="number" id="amount" required /></label>
+    
+    <label>Source:
+      <input type="text" id="source" placeholder="e.g. Salary, Freelance" required />
+    </label>
+
+    <label>Date:
+      <input type="date" id="date" required />
+    </label>
+
+    <label>Note:
+      <textarea id="note" rows="3" placeholder="Add notes..."></textarea>
+    </label>
+
+    <button type="submit">Add Income</button>
+  </form>
+
+  <script type="module" src="../JS/income.js"></script>
+</body>
+</html>

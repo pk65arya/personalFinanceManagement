@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income/Expense Summary</title>
+  <link rel="stylesheet" href="../CSS/summary-report.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <h2>Personal Finance Manager</h2>
+    </nav>
+
+    <div id="report-filter">
+      <h3>Generate Report</h3>
+      <form id="report-form">
+        <label>Month:
+          <input type="month" id="report-month" required>
+        </label>
+        <button type="submit">Generate Report</button>
+      </form>
+    </div>
+
+    <div id="summary-container">
+      <h3>Income & Expense Summary</h3>
+      <div id="income-summary">
+        <h4>Income</h4>
+        <p>Total Income: ₹<span id="total-income">0</span></p>
+      </div>
+      <div id="expense-summary">
+        <h4>Expenses</h4>
+        <p>Total Expenses: ₹<span id="total-expenses">0</span></p>
+      </div>
+      <div id="balance-summary">
+        <h4>Balance</h4>
+        <p>Remaining Balance: ₹<span id="remaining-balance">0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../JS/summary-report.js"></script>
+</body>
+</html>

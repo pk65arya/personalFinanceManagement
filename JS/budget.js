@@ -1,34 +1,61 @@
-import {auth,db} from "../JS/firbase-config.js";
-import {collection,addDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"
-import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"
+import { db } from './firbase-config.js';
+import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+// Set Budget
+document.getElementById("budget-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  
+  const category = document.getElementById("category").value;
+  const budgetAmount = parseFloat(document.getElementById("budget-amount").value);
+  const month = document.getElementById("budget-month").value;
+  const userId = "USER_ID";  // This should be dynamically fetched from Firebase auth
 
-document.getElementById('budget-form').addEventListener("submit", async(e)=>{
-  const category=document.getElementById('category').value;
-  const amount=document.getElementById('budget-amount').value;
-  const month=document.getElementById('budget-month').value;
-  console.log('check')
-  onAuthStateChanged(auth,async(user)=>{
-    if(!user){
-     
-      alert('User not logged in');
-      return;
-    }
+  try {
+    await addDoc(collection(db, "budgets"), {
+      userId,
+      category,
+      budgetAmount,
+      month,
+      createdAt: new Date().toISOString()
+    });
 
-    try {
-      await addDoc(collection,(db,"budgetLimit"),{
-        userId:user.uid,
-        type:"limit",
-        category,
-        amount,
-        month,
-        createdAt:serverTimestamp()
-      })
-      alert("Expense added successfully!");
-        document.getElementById('expense-form').reset();
-    } catch (error) {
-      console.error("Error adding expense:", err);
-      alert('Failed to add Expense.')
-    }
-  })
-})
+    alert("Budget Set Successfully!");
+    getBudgetSummary(userId);
+  } catch (error) {
+    console.error("Error setting budget:", error);
+  }
+});
+
+// Get Budget Summary
+async function getBudgetSummary(userId) {
+  const q = query(collection(db, "budgets"), where("userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+
+  let totalBudget = 0;
+  let totalSpent = 0;
+
+  querySnapshot.forEach(doc => {
+    const data = doc.data();
+    totalBudget += data.budgetAmount;
+    totalSpent += getSpentAmount(data.category);  // Fetch spent amount for the category
+  });
+
+  document.getElementById("budget-summary").innerHTML = `
+    Total Budget: ₹${totalBudget} | Total Spent: ₹${totalSpent}
+  `;
+
+  if (totalSpent > totalBudget) {
+    document.getElementById("alert-message").innerText = "You have exceeded your budget!";
+  } else {
+    document.getElementById("alert-message").innerText = "";
+  }
+}
+
+// Example function to get spent amount (this should be linked to the expense records)
+function getSpentAmount(category) {
+  // Here, we would fetch the total spent in the given category
+  return 1000;  // Just a placeholder value, replace with actual logic
+}
+
+// Fetch the current budget summary after page load
+getBudgetSummary("USER_ID"); // Replace "USER_ID" dynamically

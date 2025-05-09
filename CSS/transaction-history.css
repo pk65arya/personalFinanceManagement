@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 2rem;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+.filters {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.filters select,
+.filters input,
+.filters button {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#transaction-list {
+  max-width: 700px;
+  margin: auto;
+}
+
+.transaction-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
