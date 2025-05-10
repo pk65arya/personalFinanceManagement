@@ -1,118 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard - Personal Finance Manager</title>
-  <link rel="stylesheet" href="../CSS/dashboard.css" />
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f5f5;
-    }
+<div class="sidebar">
+  <h2>💼 Finance Manager</h2>
 
-    .sidebar {
-      width: 250px;
-      background: #2c3e50;
-      color: #ecf0f1;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar h2 {
-      margin-bottom: 30px;
-      color: #fff;
-    }
-
-    .sidebar button {
-      background: none;
-      border: none;
-      color: #ecf0f1;
-      text-align: left;
-      padding: 10px 0;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .sidebar button:hover {
-      background-color: #34495e;
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .dashboard-section {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="sidebar">
-    <h2>Finance Manager</h2>
-    <button onclick="location.href='add-expense.html'">➕ Add Expense</button>
-    <button onclick="location.href='view-expenses.html'">📄 View Expenses</button>
-    <button onclick="location.href='budget.html'">📊 Create Budget</button>
-    <button onclick="location.href='income.html'">💰 Add Income</button>
-    <button onclick="location.href='view-income.html'">📈 View Income</button>
-    <button onclick="location.href='recurring-payments.html'">🔁 Recurring Payments</button>
-    <button onclick="location.href='expense-splitting.html'">🤝 Split Expenses</button>
-    <button onclick="location.href='expense-report.html'">📑 Expense Report</button>
-    <button onclick="location.href='spending-chart.html'">📉 Expense Chart</button>
-    <button onclick="location.href='savings-goals.html'">🎯 Savings Goals</button>
-    <button onclick="location.href='financial-health.html'">❤️ Financial Health</button>
-    <button onclick="location.href='trends.html'">📆 Spending Trends</button>
-    <button onclick="location.href='education.html'">📘 Education</button>
-    <button onclick="location.href='export.html'">📤 Export Data</button>
-    <button onclick="location.href='milestones.html'">🌟 Share Milestones</button>
-    <button id="logoutBtn">🚪 Logout</button>
+  <div class="dropdown">
+    <button class="dropdown-btn">💸 Expenses</button>
+    <div class="dropdown-content">
+      <button onclick="location.href='add-expense.html'">➕ Add Expense</button>
+      <button onclick="location.href='view-expenses.html'">📄 View Expenses</button>
+      <button onclick="location.href='expense-splitting.html'">🤝 Split Expenses</button>
+    </div>
   </div>
 
-  <div class="main-content">
-    <nav>
-      <h2>Welcome, <span id="userName">User</span></h2>
-    </nav>
-
-    <section class="dashboard-section user-info">
-      <p><strong>Email:</strong> <span id="userEmail"></span></p>
-      <p><strong>Joined on:</strong> <span id="userCreatedAt"></span></p>
-    </section>
-
-    <section class="dashboard-section income-info">
-      <h3>Your Income</h3>
-      <div id="incomeDisplay">
-        <p>Loading your income...</p>
-      </div>
-    </section>
-
-    <section class="dashboard-section budget-info">
-      <h3>Your Budget</h3>
-      <div id="budgetDisplay">
-        <p>Loading your budget...</p>
-      </div>
-    </section>
-
-    <div id="notificationContainer"></div>
+  <div class="dropdown">
+    <button class="dropdown-btn">📊 Budget & Income</button>
+    <div class="dropdown-content">
+      <button onclick="location.href='budget.html'">📊 Create Budget</button>
+      <button onclick="location.href='income.html'">💰 Add Income</button>
+      <button onclick="location.href='view-income.html'">📈 View Income</button>
+    </div>
   </div>
 
-  <script type="module" src="../JS/dashboard.js"></script>
-  <script type="module" src="../JS/display-budget.js"></script>
-  <script type="module" src="../JS/display-income.js"></script>
-</body>
-</html>
+  <div class="dropdown">
+    <button class="dropdown-btn">📑 Reports</button>
+    <div class="dropdown-content">
+      <button onclick="location.href='expense-report.html'">📄 Expense Report</button>
+      <button onclick="location.href='spending-chart.html'">📉 Expense Chart</button>
+      <button onclick="location.href='trends.html'">📆 Spending Trends</button>
+      <button onclick="location.href='financial-health.html'">❤️ Financial Health</button>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <button class="dropdown-btn">🎯 Goals & Reminders</button>
+    <div class="dropdown-content">
+      <button onclick="location.href='savings-goals.html'">🎯 Savings Goals</button>
+      <button onclick="location.href='recurring-payments.html'">🔁 Recurring Payments</button>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <button class="dropdown-btn">🛠️ Tools</button>
+    <div class="dropdown-content">
+      <button onclick="location.href='education.html'">📘 Education</button>
+      <button onclick="location.href='export.html'">📤 Export Data</button>
+      <button onclick="location.href='milestones.html'">🌟 Share Milestones</button>
+    </div>
+  </div>
+
+  <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+</div>

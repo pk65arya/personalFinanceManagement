@@ -29,3 +29,9 @@ logoutBtn.addEventListener("click", async () => {
     alert("Failed to log out.");
   }
 });
+document.querySelectorAll(".dropdown-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const dropdown = btn.parentElement;
+    dropdown.classList.toggle("open");
+  });
+});

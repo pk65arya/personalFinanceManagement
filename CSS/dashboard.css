@@ -668,3 +668,59 @@ canvas {
 }
 
 
+.dropdown {
+  margin-bottom: 10px;
+}
+
+.dropdown-btn {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.dropdown-btn:hover {
+  background: #334155;
+}
+
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+
+.dropdown-content button {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.dropdown-content button:hover {
+  background: #475569;
+  color: white;
+}
+
+/* JS adds this class */
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
+.logout-btn {
+  margin-top: 20px;
+  background-color: #ef4444;
+  color: white;
+  font-weight: bold;
+}
