@@ -1,4 +1,4 @@
-import { auth, db } from "./firbase-config.js";
+import { auth, db } from "../JS/firbase-config.js";
 import {
   collection,
   addDoc,
