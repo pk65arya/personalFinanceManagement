@@ -74,7 +74,7 @@ button:hover {
 }
 
 /* Select Group Section */
-#selectGroupSection {
+#selectGroupSection, #createGroupSection {
   text-align: center;
 }
 
