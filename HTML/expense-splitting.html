@@ -10,22 +10,11 @@
  <div class="container">
     <h2>Shared Expense Management</h2>
 
-    <!-- Group Creation Section -->
-    <div id="createGroupSection">
-      <h3>Create a New Group</h3>
-      <form id="createGroupForm">
-        <label for="groupName">Group Name:</label>
-        <input type="text" id="groupName" placeholder="e.g., Dinner with friends" required />
-
-        <button type="submit">Create Group</button>
-      </form>
-    </div>
-
     <!-- Group Selection Section -->
-    <div id="selectGroupSection" >
+    <div id="selectGroupSection" style="display: none;">
       <h3>Select a Group</h3>
       <div id="groupSelectContainer"></div>
-      <button id="selectGroupBtn" >Select Group</button>
+      <button id="selectGroupBtn" style="display:none;">Select Group</button>
     </div>
 
     <!-- Split Expense Form -->
@@ -53,6 +42,7 @@
       <p>Loading your group expenses...</p>
     </div>
   </div>
+
 
   <script type="module" src="../JS/expensesplitting.js"></script>
 </body>
