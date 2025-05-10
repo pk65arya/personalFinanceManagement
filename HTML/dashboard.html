@@ -1,4 +1,70 @@
-<div class="sidebar">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Personal Finance Manager</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    .sidebar button {
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      text-align: left;
+      padding: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sidebar button:hover {
+      background-color: #34495e;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dashboard-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
   <h2>💼 Finance Manager</h2>
 
   <div class="dropdown">
@@ -48,3 +114,37 @@
 
   <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
 </div>
+
+
+  <div class="main-content">
+    <nav>
+      <h2>Welcome, <span id="userName">User</span></h2>
+    </nav>
+
+    <section class="dashboard-section user-info">
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+      <p><strong>Joined on:</strong> <span id="userCreatedAt"></span></p>
+    </section>
+
+    <section class="dashboard-section income-info">
+      <h3>Your Income</h3>
+      <div id="incomeDisplay">
+        <p>Loading your income...</p>
+      </div>
+    </section>
+
+    <section class="dashboard-section budget-info">
+      <h3>Your Budget</h3>
+      <div id="budgetDisplay">
+        <p>Loading your budget...</p>
+      </div>
+    </section>
+
+    <div id="notificationContainer"></div>
+  </div>
+
+  <script type="module" src="../JS/dashboard.js"></script>
+  <script type="module" src="../JS/display-budget.js"></script>
+  <script type="module" src="../JS/display-income.js"></script>
+</body>
+</html>
