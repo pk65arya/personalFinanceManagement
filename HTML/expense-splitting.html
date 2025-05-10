@@ -11,48 +11,33 @@
     <h2>Shared Expense Management</h2>
 
     <!-- Group Creation Section -->
-    <div id="createGroupSection">
-      <h3>Create a New Group</h3>
-      <form id="createGroupForm">
-        <label for="groupName">Group Name:</label>
-        <input type="text" id="groupName" placeholder="e.g., Family Trip" required />
+    <div id="groupSection">
+  <h3>Select or Create a Group</h3>
+  
+  <!-- Group Creation Form -->
+  <form id="createGroupForm">
+    <input type="text" id="groupName" placeholder="Enter new group name" required />
+    <button type="submit">Create Group</button>
+  </form>
 
-        <button type="submit">Create Group</button>
-      </form>
-    </div>
-
-    <!-- Group Selection Section -->
-    <div id="selectGroupSection">
-      <h3>Select an Existing Group</h3>
-      <div id="groupSelectContainer"></div>
-      <button id="selectGroupBtn">Select Group</button>
-    </div>
-
-    <!-- Split Expense Form Section -->
-    <div id="splitExpenseFormSection" style="display: none;">
-      <h3>Add Expense to Group</h3>
-      <form id="splitExpenseForm">
-        <label for="expenseName">Expense Name:</label>
-        <input type="text" id="expenseName" placeholder="e.g., Dinner with friends" required />
-
-        <label for="totalAmount">Total Amount ($):</label>
-        <input type="number" id="totalAmount" step="0.01" placeholder="e.g., 120.00" required />
-
-        <label for="splitAmount">Split Among (Number of People):</label>
-        <input type="number" id="splitAmount" placeholder="e.g., 4" required />
-
-        <button type="submit">Add Expense</button>
-      </form>
-    </div>
-
-    <hr />
-
-    <!-- Display Group Expenses -->
-    <h3>Group Expenses</h3>
-    <div id="splitExpensesDisplay">
-      <p>Loading your group expenses...</p>
-    </div>
+  <!-- Existing Groups -->
+  <div id="groupSelectContainer">
+    <h4>Select an Existing Group</h4>
+    <div id="groupSelectDropdown"></div>
   </div>
+</div>
+
+<div id="expenseSection" style="display: none;">
+  <h3>Add Expense to Selected Group</h3>
+  <form id="splitExpenseForm">
+    <input type="text" id="expenseName" placeholder="Expense Name" required />
+    <input type="number" id="totalAmount" placeholder="Total Amount" required />
+    <input type="number" id="splitAmount" placeholder="Number of People" required />
+    <button type="submit">Add Expense</button>
+  </form>
+
+  <div id="splitExpensesDisplay"></div>
+</div>
 
   <script type="module" src="../JS/expensesplitting.js"></script>
 </body>

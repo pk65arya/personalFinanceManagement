@@ -12,8 +12,8 @@ import {
 const splitExpenseForm = document.getElementById("splitExpenseForm");
 const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 const createGroupForm = document.getElementById("createGroupForm");
-const selectGroupSection = document.getElementById("selectGroupSection");
 const groupSelectContainer = document.getElementById("groupSelectContainer");
+const expenseSection = document.getElementById("expenseSection");
 
 // Selected Group
 let selectedGroupId = null;
@@ -27,26 +27,20 @@ async function fetchAndDisplayGroups() {
   const snapshot = await getDocs(q);
 
   if (snapshot.empty) {
-    return alert("No groups found for you. Please create a group first.");
+    groupSelectContainer.innerHTML = "<p>No groups found. Please create one.</p>";
+    return;
   }
 
-  let html = "<option value='' disabled selected>Select a group</option>";
+  let html = `<select id="groupSelect" onchange="selectGroup(event)">
+                <option value="" disabled selected>Select a group</option>`;
+
   snapshot.forEach((doc) => {
     const group = doc.data();
     html += `<option value="${doc.id}">${group.groupName}</option>`;
   });
 
-  const groupSelect = document.createElement("select");
-  groupSelect.innerHTML = html;
-
-  // Event listener to update selected group and display expenses
-  groupSelect.addEventListener("change", async (e) => {
-    selectedGroupId = e.target.value;
-    await displaySplitExpenses(selectedGroupId);  // Display expenses for the selected group
-  });
-
-  groupSelectContainer.innerHTML = ''; // Clear any existing content
-  groupSelectContainer.appendChild(groupSelect);
+  html += "</select>";
+  groupSelectContainer.innerHTML = html;
 }
 
 // Show the expenses for the selected group
@@ -111,13 +105,20 @@ splitExpenseForm.addEventListener("submit", async (e) => {
     document.getElementById("expenseName").value = '';
     document.getElementById("totalAmount").value = '';
     document.getElementById("splitAmount").value = '';
-    
+
     await displaySplitExpenses(selectedGroupId);  // Refresh the displayed expenses
   } catch (error) {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
   }
 });
+
+// Handle group selection
+function selectGroup(event) {
+  selectedGroupId = event.target.value;
+  expenseSection.style.display = "block";  // Show the expense section
+  displaySplitExpenses(selectedGroupId); // Display expenses for the selected group
+}
 
 // Create New Group
 createGroupForm.addEventListener("submit", async (e) => {
@@ -130,6 +131,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   if (!groupName) return alert("Please enter a group name.");
 
   try {
+    // Add new group to Firestore
     await addDoc(collection(db, "sharedGroups"), {
       groupName,
       members: [user.email],

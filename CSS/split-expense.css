@@ -1,84 +1,129 @@
-/* General Styles */
+/* General styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
   margin: 0;
   padding: 0;
+  background-color: #f4f7f6;
+  color: #333;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+h3, h4 {
+  font-size: 1.5rem;
+  color: #4c4c4c;
 }
 
-h2 {
-  color: #007bff;
-  text-align: center;
+h4 {
+  font-size: 1.2rem;
+  color: #5a5a5a;
 }
 
-/* Form and Inputs */
-form {
-  margin-bottom: 20px;
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+button:hover {
+  background-color: #2980b9;
 }
 
 input[type="text"],
 input[type="number"],
 select {
   width: 100%;
+  padding: 12px;
+  margin: 8px 0 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+#groupSection,
+#expenseSection {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#groupSection h3,
+#expenseSection h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#groupSelectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#groupSelectDropdown {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#groupSelect {
+  width: 100%;
   padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
+  font-size: 1rem;
   border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+#expenseSection {
+  display: none; /* Hidden until a group is selected */
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Expense Cards */
 .expense-card {
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
   padding: 15px;
-  margin-top: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .expense-card h4 {
-  margin: 0;
-  color: #007bff;
+  margin-top: 0;
 }
 
 .expense-card p {
-  margin: 8px 0;
+  margin: 5px 0;
 }
 
-/* Select Group Section */
-#selectGroupSection, #createGroupSection {
-  text-align: center;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .expense-card {
+    margin: 10px;
+    padding: 10px;
+  }
 
-select {
-  width: auto;
-  margin: 20px auto;
+  #groupSection,
+  #expenseSection {
+    padding: 15px;
+  }
+
+  form {
+    padding: 10px;
+  }
 }
