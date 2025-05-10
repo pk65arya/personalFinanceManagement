@@ -3,29 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shared Expense Management - Personal Finance Manager</title>
-  <link rel="stylesheet" href="../CSS/split-expense.css" />
+  <title>Shared Expense Management</title>
+  <link rel="stylesheet" href="../CSS/shared-expenses.css" />
 </head>
 <body>
-  <div class="split-container">
-    <h2>Manage Shared Expenses</h2>
+  <div class="container">
+    <h2>Shared Expense Management</h2>
 
-    <!-- Group Creation Form -->
-    <div id="createGroupSection">
-      <h3>Create a Shared Expense Group</h3>
-      <form id="createGroupForm">
-        <label for="groupName">Group Name:</label>
-        <input type="text" id="groupName" placeholder="e.g., Trip to Goa" required />
-
-        <label for="groupMembers">Add Members (comma-separated emails):</label>
-        <input type="text" id="groupMembers" placeholder="e.g., john@example.com, jane@example.com" required />
-
-        <button type="submit">Create Group</button>
-      </form>
+    <!-- Group Selection Section -->
+    <div id="selectGroupSection" style="display: none;">
+      <h3>Select a Group</h3>
+      <div id="groupSelectContainer"></div>
     </div>
 
-    <!-- Group Selection Form -->
-    <div id="selectGroupSection" style="display: none;">
+    <!-- Split Expense Form -->
+    <div id="splitExpenseFormSection">
       <h3>Add Expense to Group</h3>
       <form id="splitExpenseForm">
         <label for="expenseName">Expense Name:</label>
@@ -37,16 +29,16 @@
         <label for="splitAmount">Split Among (Number of People):</label>
         <input type="number" id="splitAmount" placeholder="e.g., 4" required />
 
-        <button type="submit">Split Expense</button>
+        <button type="submit">Add Expense</button>
       </form>
     </div>
 
     <hr />
 
-    <!-- Display Existing Expenses -->
-    <h3>Group Expenses History</h3>
-    <div id="splitExpensesDisplay" class="split-history">
-      <p>Loading your shared expenses...</p>
+    <!-- Display Group Expenses -->
+    <h3>Group Expenses</h3>
+    <div id="splitExpensesDisplay">
+      <p>Loading your group expenses...</p>
     </div>
   </div>
 
