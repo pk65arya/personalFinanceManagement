@@ -24,7 +24,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to create a group.");
+  
 
   const groupName = document.getElementById("groupName").value.trim();
   if (!groupName) {
@@ -67,6 +67,7 @@ async function fetchAndDisplayGroups() {
   });
 
   const groupSelect = document.createElement("select");
+  groupSelect.innerHTML="";
   groupSelect.innerHTML = html;
 
   groupSelect.addEventListener("change", (e) => {
