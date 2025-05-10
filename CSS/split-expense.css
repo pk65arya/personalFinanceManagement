@@ -75,10 +75,10 @@ button:hover {
 
 /* Select Group Section */
 #selectGroupSection {
-  
-  margin-bottom: 20px;
+  text-align: center;
 }
 
-#groupSelectContainer {
-  margin-bottom: 10px;
+select {
+  width: auto;
+  margin: 20px auto;
 }

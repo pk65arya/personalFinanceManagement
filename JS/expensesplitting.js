@@ -9,6 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // DOM Elements
+const createGroupForm = document.getElementById("createGroupForm");
 const splitExpenseForm = document.getElementById("splitExpenseForm");
 const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 const selectGroupSection = document.getElementById("selectGroupSection");
@@ -17,6 +18,35 @@ const selectGroupBtn = document.getElementById("selectGroupBtn");
 
 // Selected Group
 let selectedGroupId = null;
+
+// Create a Group
+createGroupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const user = auth.currentUser;
+  if (!user) return alert("You must be logged in to create a group.");
+
+  const groupName = document.getElementById("groupName").value.trim();
+  if (!groupName) {
+    return alert("Please enter a valid group name.");
+  }
+
+  try {
+    const docRef = await addDoc(collection(db, "sharedGroups"), {
+      groupName,
+      members: [user.email],
+      createdBy: user.email,
+      timestamp: serverTimestamp(),
+    });
+
+    alert("Group created successfully!");
+    fetchAndDisplayGroups(); // Reload groups after creation
+    document.getElementById("groupName").value = ''; // Clear input field
+  } catch (error) {
+    console.error("Error creating group:", error);
+    alert("Something went wrong. Please try again.");
+  }
+});
 
 // Fetch and Display User Groups
 async function fetchAndDisplayGroups() {
@@ -41,13 +71,13 @@ async function fetchAndDisplayGroups() {
 
   groupSelect.addEventListener("change", (e) => {
     selectedGroupId = e.target.value;
-    console.log("Selected group ID:", selectedGroupId); // Debugging log
-    displaySplitExpenses(selectedGroupId); // Display expenses for the selected group
+    console.log("Selected group ID:", selectedGroupId);
+    displaySplitExpenses(selectedGroupId);
   });
 
   groupSelectContainer.appendChild(groupSelect);
-  selectGroupSection.style.display = "block"; // Show the group selection section
-  selectGroupBtn.style.display = "block"; // Show the "Select Group" button
+  selectGroupSection.style.display = "block";
+  selectGroupBtn.style.display = "block";
 }
 
 // Show the expenses for the selected group
@@ -97,7 +127,6 @@ splitExpenseForm.addEventListener("submit", async (e) => {
   const splitPerPerson = parseFloat((totalAmount / splitAmount).toFixed(2));
 
   try {
-    // Add expense to Firestore under the selected group
     await addDoc(collection(db, "groupExpenses"), {
       groupId: selectedGroupId,
       userId: user.uid,
@@ -112,20 +141,19 @@ splitExpenseForm.addEventListener("submit", async (e) => {
     document.getElementById("expenseName").value = '';
     document.getElementById("totalAmount").value = '';
     document.getElementById("splitAmount").value = '';
-    
-    displaySplitExpenses(selectedGroupId);  // Refresh the displayed expenses
+
+    displaySplitExpenses(selectedGroupId);
   } catch (error) {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
   }
-}
-)
+});
 
 // Event listener for the "Select Group" button
 selectGroupBtn.addEventListener("click", () => {
-  selectGroupSection.style.display = "none"; // Hide the group selection section
-  document.getElementById("splitExpenseFormSection").style.display = "block"; // Show the expense form
-  displaySplitExpenses(selectedGroupId); // Show the selected group's expenses
+  selectGroupSection.style.display = "none";
+  document.getElementById("splitExpenseFormSection").style.display = "block";
+  displaySplitExpenses(selectedGroupId);
 });
 
 window.addEventListener("DOMContentLoaded", fetchAndDisplayGroups);
