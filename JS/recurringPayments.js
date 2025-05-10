@@ -52,7 +52,7 @@ async function displayRecurringPayments() {
 
   const recurringPaymentsQuery = query(
     collection(db, "recurringPayments"),
-    where("userId", "==", user.userId)
+    where("userId", "==", user.uid)
   );
   const recurringPaymentsSnapshot = await getDocs(recurringPaymentsQuery);
 
