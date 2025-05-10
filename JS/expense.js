@@ -11,7 +11,7 @@ import {
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-// Wait for auth state to confirm user
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const expenseForm = document.getElementById("expenseForm");
@@ -29,14 +29,14 @@ onAuthStateChanged(auth, (user) => {
       try {
         let imageURL = "";
 
-        // Upload receipt image to Firebase Storage if exists
+        
         if (receipt) {
           const storageRef = ref(storage, `receipts/${user.uid}/${Date.now()}_${receipt.name}`);
           await uploadBytes(storageRef, receipt);
           imageURL = await getDownloadURL(storageRef);
         }
 
-        // Save expense to Firestore
+        
         await addDoc(collection(db, "users", user.uid, "expenses"), {
           title,
           amount,
@@ -55,7 +55,7 @@ onAuthStateChanged(auth, (user) => {
       }
     });
   } else {
-    // Not logged in
+ 
     alert("You must be logged in to add expenses.");
     window.location.href = "../auth/login.html";
   }

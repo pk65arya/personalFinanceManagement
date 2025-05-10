@@ -19,7 +19,7 @@ function displayMilestone(total) {
     `;
     document.getElementById('shareBtn').addEventListener('click', () => {
       const text = encodeURIComponent(`I’ve tracked over $${total.toFixed(2)} in expenses with my Personal Finance Manager! #FinanceGoals`);
-      const url = "https://your-finance-app.web.app"; // Replace this with your live app URL
+      const url = "https://your-finance-app.web.app"; 
       window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
     });
   } else {

@@ -14,7 +14,7 @@ import {
 const goalForm = document.getElementById("goalForm");
 const goalsList = document.getElementById("goalsList");
 
-// Add new goal
+
 goalForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const goalName = document.getElementById("goalName").value;
@@ -42,7 +42,7 @@ goalForm.addEventListener("submit", async (e) => {
   });
 });
 
-// Display all goals
+
 async function displayGoals() {
   goalsList.innerHTML = "<p>Loading goals...</p>";
 

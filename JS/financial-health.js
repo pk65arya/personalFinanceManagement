@@ -21,17 +21,17 @@ async function calculateHealthScore(userId) {
   incomesSnap.forEach(doc => totalIncome += Number(doc.data().amount));
   budgetsSnap.forEach(doc => totalBudget += Number(doc.data().amount));
 
-  // Calculate Metrics
+
   const savings = totalIncome - totalExpenses;
   const savingsRatio = totalIncome ? savings / totalIncome : 0;
   const budgetEfficiency = totalBudget ? (1 - (totalExpenses / totalBudget)) : 0;
 
-  // Scoring (out of 100)
-  let score = 50; // base score
+
+  let score = 50; 
   score += savingsRatio * 30;
   score += budgetEfficiency * 20;
 
-  // Clamp score
+  
   score = Math.max(0, Math.min(100, Math.round(score)));
 
   return {
@@ -47,7 +47,7 @@ function getScoreDescription(score) {
   return "Needs improvement. Track your spending and create a savings plan.";
 }
 
-// Fetch user and display score
+
 auth.onAuthStateChanged(async (user) => {
   if (user) {
     const { score, description } = await calculateHealthScore(user.uid);

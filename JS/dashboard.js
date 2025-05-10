@@ -11,7 +11,7 @@ auth.onAuthStateChanged((user) => {
     return;
   }
 
-  // Set user info
+ 
   userNameEl.textContent = user.displayName || "User";
   userEmailEl.textContent = user.email;
 
@@ -19,7 +19,7 @@ auth.onAuthStateChanged((user) => {
   userCreatedAtEl.textContent = createdAt.toLocaleDateString();
 });
 
-// Logout functionality
+
 logoutBtn.addEventListener("click", async () => {
   try {
     await auth.signOut();

@@ -11,7 +11,7 @@ import {
 const splitExpenseForm = document.getElementById("splitExpenseForm");
 const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 
-// Handle form submission
+
 splitExpenseForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -40,14 +40,14 @@ splitExpenseForm.addEventListener("submit", async (e) => {
 
     alert("Split expense recorded successfully!");
     splitExpenseForm.reset();
-    displaySplitExpenses(); // refresh list
+    displaySplitExpenses(); 
   } catch (error) {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
   }
 });
 
-// Display split expenses
+
 async function displaySplitExpenses() {
   const user = auth.currentUser;
   if (!user) return;
@@ -75,5 +75,5 @@ async function displaySplitExpenses() {
   splitExpensesDisplay.innerHTML = html;
 }
 
-// Auto-load when page is ready
+
 window.addEventListener("DOMContentLoaded", displaySplitExpenses);

@@ -17,7 +17,7 @@ form.addEventListener('submit', async (e) => {
 
     await updateProfile(user, { displayName: name });
 
-    // ✅ Correct Firestore document path
+    
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       name: name,

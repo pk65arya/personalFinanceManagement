@@ -1,9 +1,9 @@
-// auth.js
+
 import { auth, db } from "../JS/firbase-config.js";
 import { createUserWithEmailAndPassword, updateProfile ,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// Registration logic
+
 const registerForm = document.getElementById("register-form");
 
 registerForm.addEventListener("submit", async (event) => {
@@ -15,21 +15,20 @@ registerForm.addEventListener("submit", async (event) => {
 
   if (name && email && password) {
     try {
-      // Create user in Firebase Auth
+     
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Update the user's profile with their name
+     
       await updateProfile(user, { displayName: name });
 
-      // Save user data to Firestore
       await setDoc(doc(db, "users", user.uid), {
         name,
         email,
         createdAt: new Date().toISOString(),
       });
 
-      // Redirect to dashboard after successful registration
+      
       window.location.href = "dashboard.html";
     } catch (error) {
       console.error("Error registering user: ", error.message);
@@ -41,10 +40,7 @@ registerForm.addEventListener("submit", async (event) => {
 });
 
 
-// auth.js (for login)
 
-
-// Handle login
 const loginForm = document.getElementById("login-form");
 
 loginForm.addEventListener("submit", async (event) => {

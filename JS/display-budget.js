@@ -20,7 +20,7 @@ auth.onAuthStateChanged((user) => {
 
 async function displayBudgetsWithSpending(userId) {
   try {
-    // Fetch budgets for the user
+  
     const budgetsQuery = query(collection(db, "budgets"), where("userId", "==", userId));
     const budgetsSnapshot = await getDocs(budgetsQuery);
 
@@ -29,7 +29,7 @@ async function displayBudgetsWithSpending(userId) {
       return;
     }
 
-    // Fetch all expenses for the user
+    
     const expensesQuery = query(collection(db, "expenses"), where("userId", "==", userId));
     const expensesSnapshot = await getDocs(expensesQuery);
 
@@ -39,7 +39,7 @@ async function displayBudgetsWithSpending(userId) {
       expensesByCategory[category] = (expensesByCategory[category] || 0) + parseFloat(amount);
     });
 
-    // Build HTML
+    
     let html = "";
     budgetsSnapshot.forEach((doc) => {
       const budget = doc.data();

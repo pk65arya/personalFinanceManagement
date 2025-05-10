@@ -12,7 +12,7 @@ const recurringPaymentsDisplay = document.getElementById(
   "recurringPaymentsDisplay"
 );
 
-// Add Recurring Payment
+
 recurringPaymentForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -39,20 +39,20 @@ recurringPaymentForm.addEventListener("submit", async (e) => {
     });
 
     alert("Recurring Payment added successfully!");
-    displayRecurringPayments(); // Refresh the list
+    displayRecurringPayments(); 
   } catch (error) {
     console.error("Error adding recurring payment: ", error);
   }
 });
 
-// Display Recurring Payments
+
 async function displayRecurringPayments() {
   const user = auth.currentUser;
   if (!user) return;
 
   const recurringPaymentsQuery = query(
     collection(db, "recurringPayments"),
-    where("userId", "==", user.uid)
+    where("userId", "==", user.userId)
   );
   const recurringPaymentsSnapshot = await getDocs(recurringPaymentsQuery);
 
@@ -75,5 +75,5 @@ async function displayRecurringPayments() {
     html || "<p>No recurring payments added yet.</p>";
 }
 
-// Initialize the display of recurring payments
+
 displayRecurringPayments();
