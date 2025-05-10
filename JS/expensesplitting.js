@@ -40,7 +40,7 @@ createGroupForm.addEventListener("submit", async (e) => {
     });
 
     alert("Group created successfully!");
-    fetchAndDisplayGroups(); // Reload groups after creation
+ // Reload groups after creation
     document.getElementById("groupName").value = ''; // Clear input field
   } catch (error) {
     console.error("Error creating group:", error);
@@ -51,7 +51,7 @@ createGroupForm.addEventListener("submit", async (e) => {
 // Fetch and Display User Groups
 async function fetchAndDisplayGroups() {
   const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to view your groups.");
+  // if (!user) return alert("You must be logged in to view your groups.");
 
   const q = query(collection(db, "sharedGroups"), where("members", "array-contains", user.email));
   const snapshot = await getDocs(q);
@@ -111,7 +111,7 @@ splitExpenseForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to add a split expense.");
+  // if (!user) return alert("You must be logged in to add a split expense.");
 
   if (!selectedGroupId) {
     return alert("Please select a group to add expenses.");
@@ -157,4 +157,4 @@ selectGroupBtn.addEventListener("click", () => {
   displaySplitExpenses(selectedGroupId);
 });
 
-window.addEventListener("DOMContentLoaded", fetchAndDisplayGroups);
+window.addEventListener("DOMContentLoaded", fetchAndDisplayGroups());
