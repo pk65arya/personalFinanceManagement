@@ -6,6 +6,8 @@ import {
   query,
   where,
   serverTimestamp,
+  doc,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 const createGroupForm = document.getElementById("createGroupForm");
@@ -16,6 +18,9 @@ const groupMembersInput = document.getElementById("groupMembers");
 const expenseNameInput = document.getElementById("expenseName");
 const totalAmountInput = document.getElementById("totalAmount");
 const splitAmountInput = document.getElementById("splitAmount");
+
+// Variable to store selected groupId
+let selectedGroupId = null;
 
 // Handle Group Creation
 createGroupForm.addEventListener("submit", async (e) => {
@@ -45,13 +50,44 @@ createGroupForm.addEventListener("submit", async (e) => {
     alert(`Group "${groupName}" created successfully!`);
     groupNameInput.value = '';
     groupMembersInput.value = '';
+
+    // After group creation, display the list of groups for expense management
+    fetchAndDisplayGroups();
+
   } catch (error) {
     console.error("Error creating group:", error);
     alert("Error creating group. Please try again.");
   }
 });
 
-// Display Split Expenses History
+// Fetch and display groups the user is part of
+async function fetchAndDisplayGroups() {
+  const user = auth.currentUser;
+  if (!user) return alert("You must be logged in to view your groups.");
+
+  const q = query(collection(db, "sharedGroups"), where("members", "array-contains", user.email));
+  const snapshot = await getDocs(q);
+
+  let html = "<option value='' disabled selected>Select a group</option>";
+  snapshot.forEach((doc) => {
+    const group = doc.data();
+    html += `<option value="${doc.id}">${group.groupName}</option>`;
+  });
+
+  const groupSelect = document.createElement("select");
+  groupSelect.innerHTML = html;
+
+  const selectGroupSection = document.getElementById("selectGroupSection");
+  selectGroupSection.style.display = "block";
+  selectGroupSection.insertBefore(groupSelect, splitExpenseForm);
+
+  groupSelect.addEventListener("change", (e) => {
+    selectedGroupId = e.target.value;
+    displaySplitExpenses(selectedGroupId);
+  });
+}
+
+// Display Split Expenses for a selected group
 async function displaySplitExpenses(groupId) {
   const q = query(collection(db, "groupExpenses"), where("groupId", "==", groupId));
   const snapshot = await getDocs(q);
@@ -76,45 +112,20 @@ async function displaySplitExpenses(groupId) {
   splitExpensesDisplay.innerHTML = html;
 }
 
-// Fetch and display available groups for expense adding
-async function fetchAndDisplayGroups() {
-  const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to view your groups.");
-
-  const q = query(collection(db, "sharedGroups"), where("members", "array-contains", user.email));
-  const snapshot = await getDocs(q);
-
-  let html = "<option value='' disabled selected>Select a group</option>";
-  snapshot.forEach((doc) => {
-    const group = doc.data();
-    html += `<option value="${doc.id}">${group.groupName}</option>`;
-  });
-
-  const groupSelect = document.createElement("select");
-  groupSelect.innerHTML = html;
-
-  const selectGroupSection = document.getElementById("selectGroupSection");
-  selectGroupSection.style.display = "block";
-  selectGroupSection.insertBefore(groupSelect, splitExpenseForm);
-
-  groupSelect.addEventListener("change", (e) => {
-    const selectedGroupId = e.target.value;
-    displaySplitExpenses(selectedGroupId);
-  });
-}
-
-// Handle Expense Splitting
+// Handle Expense Splitting for a group
 splitExpenseForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = auth.currentUser;
   if (!user) return alert("You must be logged in to add a split expense.");
 
+  if (!selectedGroupId) {
+    return alert("Please select a group to add expenses.");
+  }
+
   const expenseName = expenseNameInput.value.trim();
   const totalAmount = parseFloat(totalAmountInput.value);
   const splitAmount = parseInt(splitAmountInput.value);
-
-  const groupId = document.querySelector("select").value;
 
   if (!expenseName || isNaN(totalAmount) || isNaN(splitAmount) || splitAmount <= 0) {
     return alert("Please fill out all fields correctly.");
@@ -123,9 +134,9 @@ splitExpenseForm.addEventListener("submit", async (e) => {
   const splitPerPerson = parseFloat((totalAmount / splitAmount).toFixed(2));
 
   try {
-    // Add expense to Firestore
+    // Add expense to Firestore under the selected group
     await addDoc(collection(db, "groupExpenses"), {
-      groupId,
+      groupId: selectedGroupId,
       userId: user.uid,
       expenseName,
       totalAmount,
@@ -135,8 +146,11 @@ splitExpenseForm.addEventListener("submit", async (e) => {
     });
 
     alert("Expense recorded successfully!");
-    splitExpenseForm.reset();
-    displaySplitExpenses(groupId);
+    expenseNameInput.value = '';
+    totalAmountInput.value = '';
+    splitAmountInput.value = '';
+    
+    displaySplitExpenses(selectedGroupId);
   } catch (error) {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
