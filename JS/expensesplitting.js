@@ -13,6 +13,7 @@ const splitExpenseForm = document.getElementById("splitExpenseForm");
 const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 const selectGroupSection = document.getElementById("selectGroupSection");
 const groupSelectContainer = document.getElementById("groupSelectContainer");
+const selectGroupBtn = document.getElementById("selectGroupBtn");
 
 // Selected Group
 let selectedGroupId = null;
@@ -41,14 +42,38 @@ async function fetchAndDisplayGroups() {
   groupSelect.addEventListener("change", (e) => {
     selectedGroupId = e.target.value;
     console.log("Selected group ID:", selectedGroupId); // Debugging log
-    displaySplitExpenses(selectedGroupId);
+    displaySplitExpenses(selectedGroupId); // Display expenses for the selected group
   });
 
   groupSelectContainer.appendChild(groupSelect);
-  selectGroupSection.style.display = "block";
+  selectGroupSection.style.display = "block"; // Show the group selection section
+  selectGroupBtn.style.display = "block"; // Show the "Select Group" button
 }
 
-window.addEventListener("DOMContentLoaded", fetchAndDisplayGroups);
+// Show the expenses for the selected group
+async function displaySplitExpenses(groupId) {
+  const q = query(collection(db, "groupExpenses"), where("groupId", "==", groupId));
+  const snapshot = await getDocs(q);
+
+  let html = "";
+  if (snapshot.empty) {
+    html = "<p>No expenses recorded yet for this group.</p>";
+  } else {
+    snapshot.forEach((doc) => {
+      const expense = doc.data();
+      html += `
+        <div class="expense-card">
+          <h4>${expense.expenseName}</h4>
+          <p><strong>Total Amount:</strong> $${expense.totalAmount.toFixed(2)}</p>
+          <p><strong>Split Among:</strong> ${expense.splitAmong} people</p>
+          <p><strong>Each Pays:</strong> $${expense.splitPerPerson.toFixed(2)}</p>
+        </div>
+      `;
+    });
+  }
+
+  splitExpensesDisplay.innerHTML = html;
+}
 
 // Add Expense to Selected Group
 splitExpenseForm.addEventListener("submit", async (e) => {
@@ -93,29 +118,14 @@ splitExpenseForm.addEventListener("submit", async (e) => {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
   }
+}
+)
+
+// Event listener for the "Select Group" button
+selectGroupBtn.addEventListener("click", () => {
+  selectGroupSection.style.display = "none"; // Hide the group selection section
+  document.getElementById("splitExpenseFormSection").style.display = "block"; // Show the expense form
+  displaySplitExpenses(selectedGroupId); // Show the selected group's expenses
 });
 
-// Display Group Expenses
-async function displaySplitExpenses(groupId) {
-  const q = query(collection(db, "groupExpenses"), where("groupId", "==", groupId));
-  const snapshot = await getDocs(q);
-
-  let html = "";
-  if (snapshot.empty) {
-    html = "<p>No expenses recorded yet for this group.</p>";
-  } else {
-    snapshot.forEach((doc) => {
-      const expense = doc.data();
-      html += `
-        <div class="expense-card">
-          <h4>${expense.expenseName}</h4>
-          <p><strong>Total Amount:</strong> $${expense.totalAmount.toFixed(2)}</p>
-          <p><strong>Split Among:</strong> ${expense.splitAmong} people</p>
-          <p><strong>Each Pays:</strong> $${expense.splitPerPerson.toFixed(2)}</p>
-        </div>
-      `;
-    });
-  }
-
-  splitExpensesDisplay.innerHTML = html;
-}
+window.addEventListener("DOMContentLoaded", fetchAndDisplayGroups);
