@@ -3,34 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Split Expense - Personal Finance Manager</title>
+  <title>Shared Expense Management - Personal Finance Manager</title>
   <link rel="stylesheet" href="../CSS/split-expense.css" />
 </head>
 <body>
   <div class="split-container">
-    <h2>Split an Expense</h2>
+    <h2>Manage Shared Expenses</h2>
 
-    <form id="splitExpenseForm">
-      <label for="expenseName">Expense Name:</label>
-      <input type="text" id="expenseName" placeholder="e.g., Dinner with friends" required />
+    <!-- Group Creation Form -->
+    <div id="createGroupSection">
+      <h3>Create a Shared Expense Group</h3>
+      <form id="createGroupForm">
+        <label for="groupName">Group Name:</label>
+        <input type="text" id="groupName" placeholder="e.g., Trip to Goa" required />
 
-      <label for="totalAmount">Total Amount ($):</label>
-      <input type="number" id="totalAmount" step="0.01" placeholder="e.g., 120.00" required />
+        <label for="groupMembers">Add Members (comma-separated emails):</label>
+        <input type="text" id="groupMembers" placeholder="e.g., john@example.com, jane@example.com" required />
 
-      <label for="splitAmount">Split Among (Number of People):</label>
-      <input type="number" id="splitAmount" placeholder="e.g., 4" required />
+        <button type="submit">Create Group</button>
+      </form>
+    </div>
 
-      <button type="submit">Split Expense</button>
-    </form>
+    <!-- Group Selection Form -->
+    <div id="selectGroupSection" style="display: none;">
+      <h3>Add Expense to Group</h3>
+      <form id="splitExpenseForm">
+        <label for="expenseName">Expense Name:</label>
+        <input type="text" id="expenseName" placeholder="e.g., Dinner with friends" required />
+
+        <label for="totalAmount">Total Amount ($):</label>
+        <input type="number" id="totalAmount" step="0.01" placeholder="e.g., 120.00" required />
+
+        <label for="splitAmount">Split Among (Number of People):</label>
+        <input type="number" id="splitAmount" placeholder="e.g., 4" required />
+
+        <button type="submit">Split Expense</button>
+      </form>
+    </div>
 
     <hr />
 
-    <h3>Split Expenses History</h3>
+    <!-- Display Existing Expenses -->
+    <h3>Group Expenses History</h3>
     <div id="splitExpensesDisplay" class="split-history">
-      <p>Loading your split expenses...</p>
+      <p>Loading your shared expenses...</p>
     </div>
   </div>
 
-  <script type="module" src="../JS/expenseSplitting.js"></script>
+  <script type="module" src="../JS/expensesplitting.js"></script>
 </body>
 </html>
