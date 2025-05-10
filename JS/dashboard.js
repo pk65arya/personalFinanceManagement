@@ -1,4 +1,4 @@
-import { auth } from '../JS/firbase-config.js';
+import { auth } from "../JS/firbase-config.js";
 
 const userNameEl = document.getElementById("userName");
 const userEmailEl = document.getElementById("userEmail");
@@ -23,7 +23,7 @@ auth.onAuthStateChanged((user) => {
 logoutBtn.addEventListener("click", async () => {
   try {
     await auth.signOut();
-    window.location.href = "login.html";
+    window.location.href = "landing.html";
   } catch (error) {
     console.error("Logout error:", error);
     alert("Failed to log out.");
