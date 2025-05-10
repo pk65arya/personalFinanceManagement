@@ -2,52 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recurring Payments - Personal Finance Manager</title>
-  <link rel="stylesheet" href="../CSS/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recurring Payments - Finance Manager</title>
+  <link rel="stylesheet" href="../CSS/recurring-payments.css" />
 </head>
 <body>
-  <div class="recurring-payment-container">
-    <nav>
-      <h2>Recurring Payments</h2>
-      <button  onclick="window.history.back()"><Strong>BackToDashBoard</Strong></button>
-    </nav>
+  <div class="container">
+    <h2>🔁 Add Recurring Payment</h2>
+    <form id="recurringPaymentForm">
+      <input type="text" id="paymentName" placeholder="Payment Name" required />
+      <input type="number" id="amount" placeholder="Amount" required />
+      <input type="text" id="category" placeholder="Category" required />
+      <select id="frequency" required>
+        <option value="">Select Frequency</option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+      <input type="date" id="startDate" required />
+      <input type="date" id="endDate" placeholder="Optional End Date" />
+      <button type="submit">Add Payment</button>
+    </form>
 
-    <section class="recurring-payment-form">
-      <h3>Add Recurring Payment</h3>
-      <form id="recurringPaymentForm">
-        <label for="paymentName">Payment Name</label>
-        <input type="text" id="paymentName" required />
-
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" required />
-
-        <label for="category">Category</label>
-        <input type="text" id="category" required />
-
-        <label for="frequency">Frequency</label>
-        <select id="frequency">
-          <option value="monthly">Monthly</option>
-          <option value="weekly">Weekly</option>
-          <option value="daily">Daily</option>
-        </select>
-
-        <label for="startDate">Start Date</label>
-        <input type="date" id="startDate" required />
-
-        <label for="endDate">End Date (optional)</label>
-        <input type="date" id="endDate" />
-
-        <button type="submit">Add Recurring Payment</button>
-      </form>
-    </section>
-
-    <section class="recurring-payments-list">
-      <h3>Your Recurring Payments</h3>
-      <div id="recurringPaymentsDisplay">
-        <p>Loading your recurring payments...</p>
-      </div>
-    </section>
+    <h2>📋 Your Recurring Payments</h2>
+    <div id="recurringPaymentsDisplay" class="payment-list"></div>
   </div>
 
   <script type="module" src="../JS/recurringPayments.js"></script>

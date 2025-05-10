@@ -1,104 +1,21 @@
-// import { auth, db } from "../JS/firbase-config.js";
-// import {
-//   collection,
-//   addDoc,
-//   getDocs,
-//   query,
-//   where,
-// } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-// const recurringPaymentForm = document.getElementById("recurringPaymentForm");
-// const recurringPaymentsDisplay = document.getElementById(
-//   "recurringPaymentsDisplay"
-// );
-
-
-// recurringPaymentForm.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-
-//   const user = auth.currentUser;
-//   if (!user)
-//     return alert("You need to be logged in to add a recurring payment");
-
-//   const paymentName = document.getElementById("paymentName").value;
-//   const amount = document.getElementById("amount").value;
-//   const category = document.getElementById("category").value;
-//   const frequency = document.getElementById("frequency").value;
-//   const startDate = document.getElementById("startDate").value;
-//   const endDate = document.getElementById("endDate").value;
-
-//   try {
-//     await addDoc(collection(db, "recurringPayments"), {
-//       paymentName,
-//       amount,
-//       category,
-//       frequency,
-//       startDate,
-//       endDate: endDate || null,
-//       userId: user.uid,
-//     });
-
-//     alert("Recurring Payment added successfully!");
-//     displayRecurringPayments(); 
-//   } catch (error) {
-//     console.error("Error adding recurring payment: ", error);
-//   }
-// });
-
-
-// async function displayRecurringPayments() {
-//   const user = auth.currentUser;
-//   if (!user) return;
-
-//   const recurringPaymentsQuery = query(
-//     collection(db, "recurringPayments"),
-//     where("userId", "==", user.uid)
-//   );
-//   const recurringPaymentsSnapshot = await getDocs(recurringPaymentsQuery);
-
-//   let html = "";
-//   recurringPaymentsSnapshot.forEach((doc) => {
-//     const payment = doc.data();
-//     html += `
-//       <div class="payment-card">
-//         <h4>${payment.paymentName}</h4>
-//         <p><strong>Amount:</strong> $${payment.amount}</p>
-//         <p><strong>Category:</strong> ${payment.category}</p>
-//         <p><strong>Frequency:</strong> ${payment.frequency}</p>
-//         <p><strong>Start Date:</strong> ${payment.startDate}</p>
-//         <p><strong>End Date:</strong> ${payment.endDate || "Ongoing"}</p>
-//       </div>
-//     `;
-//   });
-
-//   recurringPaymentsDisplay.innerHTML =
-//     html || "<p>No recurring payments added yet.</p>";
-// }
-
-
-//  displayRecurringPayments();
 import { auth, db } from "../JS/firbase-config.js";
 import {
   collection,
   addDoc,
   getDocs,
   query,
-  where,
+  where
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 const recurringPaymentForm = document.getElementById("recurringPaymentForm");
 const recurringPaymentsDisplay = document.getElementById("recurringPaymentsDisplay");
 
-// Submit recurring payment
 recurringPaymentForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = auth.currentUser;
   if (!user) {
-    alert("You need to be logged in to add a recurring payment");
+    alert("You must be logged in to add a payment.");
     return;
   }
 
@@ -120,48 +37,51 @@ recurringPaymentForm.addEventListener("submit", async (e) => {
       userId: user.uid,
     });
 
-    alert("Recurring Payment added successfully!");
+    alert("Recurring payment added!");
     recurringPaymentForm.reset();
-    displayRecurringPayments(user.uid);
+    displayRecurringPayments();
   } catch (error) {
-    console.error("Error adding recurring payment: ", error);
+    console.error("Error adding payment: ", error);
+    alert("Failed to add recurring payment.");
   }
 });
 
-// Display user's recurring payments
-async function displayRecurringPayments(uid) {
-  try {
-    const q = query(collection(db, "recurringPayments"), where("userId", "==", uid));
-    const snapshot = await getDocs(q);
+async function displayRecurringPayments() {
+  const user = auth.currentUser;
+  if (!user) return;
 
-    let html = "";
-    snapshot.forEach((doc) => {
-      const payment = doc.data();
-      html += `
-        <div class="payment-card">
-          <h4>${payment.paymentName}</h4>
-          <p><strong>Amount:</strong> $${payment.amount}</p>
-          <p><strong>Category:</strong> ${payment.category}</p>
-          <p><strong>Frequency:</strong> ${payment.frequency}</p>
-          <p><strong>Start Date:</strong> ${payment.startDate}</p>
-          <p><strong>End Date:</strong> ${payment.endDate || "Ongoing"}</p>
-        </div>
-      `;
-    });
+  const q = query(
+    collection(db, "recurringPayments"),
+    where("userId", "==", user.uid)
+  );
+  const querySnapshot = await getDocs(q);
 
-    recurringPaymentsDisplay.innerHTML =
-      html || "<p>No recurring payments added yet.</p>";
-  } catch (err) {
-    console.error("Error fetching recurring payments:", err);
-    recurringPaymentsDisplay.innerHTML = "<p>Failed to load data.</p>";
-  }
+  let html = "";
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    html += `
+      <div class="payment-card">
+        <h4>${data.paymentName}</h4>
+        <p><strong>Amount:</strong> $${data.amount}</p>
+        <p><strong>Category:</strong> ${data.category}</p>
+        <p><strong>Frequency:</strong> ${data.frequency}</p>
+        <p><strong>Start:</strong> ${data.startDate}</p>
+        <p><strong>End:</strong> ${data.endDate || "Ongoing"}</p>
+      </div>
+    `;
+  });
+
+  recurringPaymentsDisplay.innerHTML =
+    html || "<p>No recurring payments found.</p>";
 }
 
-// Auth state listener
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    displayRecurringPayments(user.uid);
+    displayRecurringPayments();
   } else {
-    recurringPaymentsDisplay.innerHTML = "<p>Please log in to view your recurring payments.</p>";
+    alert("Please log in to view your recurring payments.");
   }
 });
+
