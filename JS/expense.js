@@ -1,62 +1,62 @@
 import { auth, db, storage } from "../JS/firbase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import {
-  collection,
   addDoc,
-  serverTimestamp
+  collection,
+  serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import {
   ref,
   uploadBytes,
-  getDownloadURL
+  getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-const form = document.getElementById("expense-form");
-
-let currentUser;
-
+// Wait for auth state to confirm user
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    currentUser = user;
-  } else {
-    alert("Please login first.");
-    window.location.href = "login.html";
-  }
-});
+    const expenseForm = document.getElementById("expenseForm");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    expenseForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  const amount = document.getElementById("amount").value;
-  const category = document.getElementById("category").value;
-  const date = document.getElementById("date").value;
-  const tags = document.getElementById("tags").value.split(",").map(tag => tag.trim());
-  const note = document.getElementById("note").value;
-  const receiptFile = document.getElementById("receipt").files[0];
+      const title = document.getElementById("title").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const date = document.getElementById("date").value;
+      const category = document.getElementById("category").value;
+      const notes = document.getElementById("notes").value;
+      const receipt = document.getElementById("receipt").files[0];
 
-  try {
-    let receiptURL = "";
-    if (receiptFile) {
-      const storageRef = ref(storage, `receipts/${currentUser.uid}/${Date.now()}_${receiptFile.name}`);
-      await uploadBytes(storageRef, receiptFile);
-      receiptURL = await getDownloadURL(storageRef);
-    }
+      try {
+        let imageURL = "";
 
-    await addDoc(collection(db, "expenses"), {
-      uid: currentUser.uid,
-      amount: Number(amount),
-      category,
-      date,
-      tags,
-      note,
-      receiptURL,
-      createdAt: serverTimestamp()
+        // Upload receipt image to Firebase Storage if exists
+        if (receipt) {
+          const storageRef = ref(storage, `receipts/${user.uid}/${Date.now()}_${receipt.name}`);
+          await uploadBytes(storageRef, receipt);
+          imageURL = await getDownloadURL(storageRef);
+        }
+
+        // Save expense to Firestore
+        await addDoc(collection(db, "users", user.uid, "expenses"), {
+          title,
+          amount,
+          date,
+          category,
+          notes,
+          receiptURL: imageURL,
+          createdAt: serverTimestamp(),
+        });
+
+        alert("Expense added successfully!");
+        expenseForm.reset();
+      } catch (err) {
+        console.error("Error adding expense:", err);
+        alert("Failed to add expense. " + err.message);
+      }
     });
-
-    alert("Expense added successfully!");
-    form.reset();
-  } catch (err) {
-    console.error("Error adding expense:", err);
-    alert("Failed to add expense.");
+  } else {
+    // Not logged in
+    alert("You must be logged in to add expenses.");
+    window.location.href = "../auth/login.html";
   }
 });

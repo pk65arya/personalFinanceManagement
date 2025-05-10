@@ -1,18 +1,31 @@
-import { auth } from "../JS/firbase-config.js";
-import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { auth } from '../JS/firbase-config.js';
 
-// Redirect if user not logged in
-onAuthStateChanged(auth, (user) => {
+const userNameEl = document.getElementById("userName");
+const userEmailEl = document.getElementById("userEmail");
+const userCreatedAtEl = document.getElementById("userCreatedAt");
+const logoutBtn = document.getElementById("logoutBtn");
+
+auth.onAuthStateChanged((user) => {
   if (!user) {
-    alert("Please login first.");
     window.location.href = "login.html";
+    return;
+  }
+
+  // Set user info
+  userNameEl.textContent = user.displayName || "User";
+  userEmailEl.textContent = user.email;
+
+  const createdAt = new Date(user.metadata.creationTime);
+  userCreatedAtEl.textContent = createdAt.toLocaleDateString();
+});
+
+// Logout functionality
+logoutBtn.addEventListener("click", async () => {
+  try {
+    await auth.signOut();
+    window.location.href = "login.html";
+  } catch (error) {
+    console.error("Logout error:", error);
+    alert("Failed to log out.");
   }
 });
-
-// Logout function
-document.getElementById("logout-btn").addEventListener("click", async () => {
-  await signOut(auth);
-  alert("Logged out successfully.");
-  window.location.href = "login.html";
-});
-

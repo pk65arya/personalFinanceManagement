@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Group Expenses</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+</head>
+<body>
+  <div class="container">
+    <h2 id="groupTitle">Group: </h2>
+
+    <form id="expenseForm">
+      <input type="text" id="description" placeholder="Description" required />
+      <input type="number" id="amount" placeholder="Amount" required />
+      <button type="submit">Add Expense</button>
+    </form>
+
+    <h3>Shared Expenses</h3>
+    <ul id="expenseList"></ul>
+
+    <a href="shared-expenses.html">⬅ Back to Groups</a>
+  </div>
+
+  <script type="module" src="../JS/shared-expense-details.js"></script>
+</body>
+</html>

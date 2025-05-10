@@ -1,42 +1,48 @@
 import { auth, db } from "../JS/firbase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-const form = document.getElementById("income-form");
+const incomeForm = document.getElementById("incomeForm");
+const sourceInput = document.getElementById("source");
+const amountInput = document.getElementById("amount");
+const message = document.getElementById("message");
 
-let currentUser;
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    currentUser = user;
-  } else {
-    alert("Please login first.");
+auth.onAuthStateChanged((user) => {
+  if (!user) {
     window.location.href = "login.html";
+    return;
   }
-});
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  incomeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const amount = document.getElementById("amount").value;
-  const source = document.getElementById("source").value;
-  const date = document.getElementById("date").value;
-  const note = document.getElementById("note").value;
+    const source = sourceInput.value.trim();
+    const amount = parseFloat(amountInput.value);
 
-  try {
-    await addDoc(collection(db, "income"), {
-      uid: currentUser.uid,
-      amount: Number(amount),
-      source,
-      date,
-      note,
-      createdAt: serverTimestamp(),
-    });
+    if (!source || isNaN(amount) || amount <= 0) {
+      message.textContent = "Please enter a valid source and amount.";
+      message.style.color = "red";
+      return;
+    }
 
-    alert("Income added successfully!");
-    form.reset();
-  } catch (err) {
-    console.error("Error adding income:", err);
-    alert("Failed to add income.");
-  }
+    try {
+      await addDoc(collection(db, "income"), {
+        userId: user.uid,
+        source,
+        amount,
+        createdAt: serverTimestamp()
+      });
+
+      message.textContent = "Income saved successfully!";
+      message.style.color = "green";
+      incomeForm.reset();
+    } catch (error) {
+      console.error("Error saving income:", error);
+      message.textContent = "Failed to save income.";
+      message.style.color = "red";
+    }
+  });
 });

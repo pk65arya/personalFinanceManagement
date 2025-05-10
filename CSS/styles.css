@@ -1,0 +1,127 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.recurring-payment-container {
+  padding: 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.recurring-payment-form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.recurring-payments-list {
+  margin-top: 20px;
+}
+
+/* Container for the pie chart */
+.chart-container {
+    width: 100%;
+    max-width: 600px; /* Set a max-width for better control */
+    margin: 20px auto; /* Center the chart horizontally with space around it */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle effect */
+    text-align: center; /* Center text in the container */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for dark mode */
+}
+
+/* Chart heading */
+.chart-container h2 {
+    font-size: 24px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+}
+
+/* Style the canvas where the pie chart will be rendered */
+canvas {
+    max-width: 100% !important; /* Ensure canvas is responsive */
+    height: auto !important; /* Maintain aspect ratio */
+}
+
+/* Styling for light and dark mode */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+body.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
+
+/* Adjust chart container styles for dark mode */
+body.dark-mode .chart-container {
+    background-color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Darker shadow for dark mode */
+}
+
+body.dark-mode h2 {
+    color: #fff;
+}
+
+/* Optional: Style for buttons or actions related to the chart (e.g., filter or refresh) */
+.chart-action-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.chart-action-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.chart-action-buttons button:hover {
+    background-color: #0056b3;
+}
+

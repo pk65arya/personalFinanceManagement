@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Savings Goals</title>
+  <link rel="stylesheet" href="../CSS/savings-goals.css" />
+</head>
+<body>
+  <div class="savings-container">
+    <h2>Your Savings Goals</h2>
+     <p><a href="dashboard.html"><strong>Back to Dashboard</strong></a></p>
+    <form id="goalForm">
+      <input type="text" id="goalName" placeholder="Goal Name" required />
+      <input type="number" id="targetAmount" placeholder="Target Amount" required />
+      <input type="number" id="savedAmount" placeholder="Amount Saved" required />
+      <button type="submit">Add Goal</button>
+    </form>
+
+    <div id="goalsList"></div>
+  </div>
+
+  <script type="module" src="../JS/savings-goals.js"></script>
+</body>
+</html>

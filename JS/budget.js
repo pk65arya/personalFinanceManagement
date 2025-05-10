@@ -1,61 +1,48 @@
-import { db } from './firbase-config.js';
-import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { auth, db } from "../JS/firbase-config.js";
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// Set Budget
-document.getElementById("budget-form").addEventListener("submit", async function (e) {
-  e.preventDefault();
-  
-  const category = document.getElementById("category").value;
-  const budgetAmount = parseFloat(document.getElementById("budget-amount").value);
-  const month = document.getElementById("budget-month").value;
-  const userId = "USER_ID";  // This should be dynamically fetched from Firebase auth
+const budgetForm = document.getElementById("budgetForm");
+const categoryInput = document.getElementById("category");
+const amountInput = document.getElementById("amount");
+const message = document.getElementById("message");
 
-  try {
-    await addDoc(collection(db, "budgets"), {
-      userId,
-      category,
-      budgetAmount,
-      month,
-      createdAt: new Date().toISOString()
-    });
-
-    alert("Budget Set Successfully!");
-    getBudgetSummary(userId);
-  } catch (error) {
-    console.error("Error setting budget:", error);
+auth.onAuthStateChanged((user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
   }
-});
 
-// Get Budget Summary
-async function getBudgetSummary(userId) {
-  const q = query(collection(db, "budgets"), where("userId", "==", userId));
-  const querySnapshot = await getDocs(q);
+  budgetForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  let totalBudget = 0;
-  let totalSpent = 0;
+    const category = categoryInput.value.trim();
+    const amount = parseFloat(amountInput.value);
 
-  querySnapshot.forEach(doc => {
-    const data = doc.data();
-    totalBudget += data.budgetAmount;
-    totalSpent += getSpentAmount(data.category);  // Fetch spent amount for the category
+    if (!category || isNaN(amount) || amount <= 0) {
+      message.textContent = "Please enter a valid category and amount.";
+      message.style.color = "red";
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "budgets"), {
+        userId: user.uid,
+        category,
+        amount,
+        createdAt: serverTimestamp()
+      });
+
+      message.textContent = "Budget saved successfully!";
+      message.style.color = "green";
+      budgetForm.reset();
+    } catch (error) {
+      console.error("Error saving budget:", error);
+      message.textContent = "Failed to save budget.";
+      message.style.color = "red";
+    }
   });
-
-  document.getElementById("budget-summary").innerHTML = `
-    Total Budget: ₹${totalBudget} | Total Spent: ₹${totalSpent}
-  `;
-
-  if (totalSpent > totalBudget) {
-    document.getElementById("alert-message").innerText = "You have exceeded your budget!";
-  } else {
-    document.getElementById("alert-message").innerText = "";
-  }
-}
-
-// Example function to get spent amount (this should be linked to the expense records)
-function getSpentAmount(category) {
-  // Here, we would fetch the total spent in the given category
-  return 1000;  // Just a placeholder value, replace with actual logic
-}
-
-// Fetch the current budget summary after page load
-getBudgetSummary("USER_ID"); // Replace "USER_ID" dynamically
+});

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recurring Payments - Personal Finance Manager</title>
+  <link rel="stylesheet" href="../CSS/styles.css" />
+</head>
+<body>
+  <div class="recurring-payment-container">
+    <nav>
+      <h2>Recurring Payments</h2>
+      <button id="logoutBtn">Logout</button>
+    </nav>
+
+    <section class="recurring-payment-form">
+      <h3>Add Recurring Payment</h3>
+      <form id="recurringPaymentForm">
+        <label for="paymentName">Payment Name</label>
+        <input type="text" id="paymentName" required />
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" required />
+
+        <label for="category">Category</label>
+        <input type="text" id="category" required />
+
+        <label for="frequency">Frequency</label>
+        <select id="frequency">
+          <option value="monthly">Monthly</option>
+          <option value="weekly">Weekly</option>
+          <option value="daily">Daily</option>
+        </select>
+
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" required />
+
+        <label for="endDate">End Date (optional)</label>
+        <input type="date" id="endDate" />
+
+        <button type="submit">Add Recurring Payment</button>
+      </form>
+    </section>
+
+    <section class="recurring-payments-list">
+      <h3>Your Recurring Payments</h3>
+      <div id="recurringPaymentsDisplay">
+        <p>Loading your recurring payments...</p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="../JS/recurringPayments.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shared Expense Management</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Shared Expense Groups</h2>
+
+    <form id="createGroupForm">
+      <input type="text" id="groupName" placeholder="Group Name" required />
+      <input type="text" id="memberEmails" placeholder="Member Emails (comma-separated)" required />
+      <button type="submit">Create Group</button>
+    </form>
+
+    <div id="groupsList"></div>
+
+    <a href="dashboard.html">⬅ Back to Dashboard</a>
+  </div>
+
+  <script type="module" src="../JS/shared-expenses.js"></script>
+</body>
+</html>

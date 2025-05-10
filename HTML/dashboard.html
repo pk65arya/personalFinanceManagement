@@ -2,35 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard | Personal Finance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Personal Finance Manager</title>
   <link rel="stylesheet" href="../CSS/dashboard.css" />
 </head>
 <body>
-  <nav>
-    <h2>👛 Personal Finance Dashboard</h2>
-    <button id="logout-btn">Logout</button>
-  </nav>
+  <div class="dashboard-container">
+    <nav>
+      <h2>Welcome, <span id="userName">User</span></h2>
+      <button id="logoutBtn">Logout</button>
+    </nav>
+    <div id="notificationContainer"></div>
 
-  <section class="dashboard">
-    <div class="card" onclick="location.href='expense.html'">
-      <h3>➕ Add Expense</h3>
-      <p>Log your spending with receipts and notes.</p>
-    </div>
-    <div class="card" onclick="location.href='income.html'">
-      <h3>💰 Add Income</h3>
-      <p>Track your income sources monthly.</p>
-    </div>
-    <div class="card" onclick="location.href='budget.html'">
-      <h3>📊 Set Budget</h3>
-      <p>Create monthly budgets by category.</p>
-    </div>
-    <div class="card" onclick="location.href='summary-report.html'">
-      <h3>📈 View Reports</h3>
-      <p>See spending charts and summary.</p>
-    </div>
-  </section>
+    <section class="user-info">
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+      <p><strong>Joined on:</strong> <span id="userCreatedAt"></span></p>
+    </section>
+
+    <section class="income-info">
+  <h3>Your Income</h3>
+  <div id="incomeDisplay">
+    <p>Loading your income...</p>
+  </div>
+  <button onclick="location.href='view-income.html'">View Income</button>
+</section>
+
+    <!-- Budget Section -->
+    <section class="budget-info">
+      <h3>Your Budget</h3>
+      <div id="budgetDisplay">
+        <p>Loading your budget...</p>
+      </div>
+    </section>
+
+    <section class="features">
+      <h3>Features</h3>
+      <div class="feature-buttons">
+        <button id="addExpenseBtn" onclick="location.href='add-expense.html'">Add Expense</button>
+        <button id="viewExpensesBtn" onclick="location.href='view-expenses.html'">View Expenses</button>
+        <button id="createBudgetBtn" onclick="location.href='budget.html'">Create Budget</button>
+        <button onclick="location.href='income.html'">Add Income</button>
+        <button onclick="location.href='recurring-payments.html'">Add Recurring Payment</button>
+        <button onclick="location.href='expense-splitting.html'">Split Expense</button>
+        <button onclick="location.href='expense-report.html'">View Expense Report</button>
+        <button onclick="location.href='spending-chart.html'">View Expense Chart</button>
+        <button onclick="window.location.href='savings-goals.html'">Savings Goals</button>
+        <button onclick="window.location.href='financial-health.html'">Financial Health</button>
+        <button onclick="window.location.href='trends.html'">Spending Trends</button>
+        <!-- Add more buttons as features are implemented -->
+      </div>
+    </section>
+  </div>
 
   <script type="module" src="../JS/dashboard.js"></script>
+  <script type="module" src="../JS/display-budget.js"></script> <!-- Add script to load budget data -->
+  <script type="module" src="../JS/display-income.js"></script>
 </body>
 </html>

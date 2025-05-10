@@ -1,79 +1,69 @@
-/* General Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f7fa;
+  margin: 0;
+  padding: 2rem;
 }
 
-.container {
-  max-width: 1200px;
-  width: 100%;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+.budget-container {
+  max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-nav {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-h2 {
-  font-size: 24px;
+.budget-container h2 {
+  margin-bottom: 1rem;
   color: #333;
 }
 
-#budget-form-container {
-  margin-bottom: 30px;
+form {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  display: block;
-  margin: 10px 0 5px;
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
+input {
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 button {
-  background-color: #4CAF50;
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  background-color: #1e88e5;
   color: white;
-  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #1565c0;
 }
 
-#budget-summary-container {
-  margin-top: 30px;
+#message {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #1e88e5;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-#budget-summary {
-  font-size: 16px;
-  color: #333;
-}
-
-#alert-container {
-  margin-top: 20px;
-}
-
-#alert-message {
-  font-size: 14px;
+.back-link:hover {
+  text-decoration: underline;
 }

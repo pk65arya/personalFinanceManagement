@@ -1,25 +1,34 @@
-import { auth, db } from "../JS/firbase-config.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { auth, db } from '../JS/firbase-config.js'; // ✅ Path must be correct!
+import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-document.getElementById("register-form").addEventListener("submit", async (e) => {
+const form = document.getElementById('registerForm');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    await updateProfile(user, { displayName: name });
+
+    // ✅ Correct Firestore document path
     await setDoc(doc(db, "users", user.uid), {
-      email: user.email,
       uid: user.uid,
-      createdAt: new Date().toISOString()
+      name: name,
+      email: email,
+      createdAt: serverTimestamp()
     });
 
     alert("Registration successful!");
     window.location.href = "dashboard.html";
   } catch (error) {
-    alert("Error: " + error.message);
+    console.error("Registration Error:", error);
+    alert(error.message);
   }
 });
