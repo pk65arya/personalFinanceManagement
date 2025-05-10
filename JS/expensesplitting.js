@@ -14,7 +14,6 @@ const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 const createGroupForm = document.getElementById("createGroupForm");
 const selectGroupSection = document.getElementById("selectGroupSection");
 const groupSelectContainer = document.getElementById("groupSelectContainer");
-const selectGroupBtn = document.getElementById("selectGroupBtn");
 
 // Selected Group
 let selectedGroupId = null;
@@ -40,11 +39,13 @@ async function fetchAndDisplayGroups() {
   const groupSelect = document.createElement("select");
   groupSelect.innerHTML = html;
 
-  groupSelect.addEventListener("change", (e) => {
+  // Event listener to update selected group and display expenses
+  groupSelect.addEventListener("change", async (e) => {
     selectedGroupId = e.target.value;
-    displaySplitExpenses(selectedGroupId); // Display expenses for the selected group
+    await displaySplitExpenses(selectedGroupId);  // Display expenses for the selected group
   });
 
+  groupSelectContainer.innerHTML = ''; // Clear any existing content
   groupSelectContainer.appendChild(groupSelect);
 }
 
@@ -111,7 +112,7 @@ splitExpenseForm.addEventListener("submit", async (e) => {
     document.getElementById("totalAmount").value = '';
     document.getElementById("splitAmount").value = '';
     
-    displaySplitExpenses(selectedGroupId);  // Refresh the displayed expenses
+    await displaySplitExpenses(selectedGroupId);  // Refresh the displayed expenses
   } catch (error) {
     console.error("Error adding split expense:", error);
     alert("Something went wrong. Please try again.");
@@ -137,7 +138,7 @@ createGroupForm.addEventListener("submit", async (e) => {
     });
 
     alert("Group created successfully!");
-    fetchAndDisplayGroups(); // Refresh group selection
+    await fetchAndDisplayGroups(); // Refresh group selection
   } catch (error) {
     console.error("Error creating group:", error);
     alert("Something went wrong. Please try again.");
