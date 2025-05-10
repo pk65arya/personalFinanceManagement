@@ -1,5 +1,5 @@
 // display-income.js
-import { auth, db } from "../JS/firbase-config.js";
+import { auth, db } from "./firbase-config.js";
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 const incomeDisplay = document.getElementById("incomeDisplay");

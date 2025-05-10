@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Export Data - Finance Manager</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+  <style>
+    .dashboard-section button {
+      padding: 10px 15px;
+      margin: 10px 5px 0 0;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .dashboard-section button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Finance Manager</h2>
+    <!-- Sidebar buttons copied from dashboard -->
+    <button onclick="location.href='dashboard.html'">🏠 Dashboard</button>
+    <button onclick="location.href='export.html'">📤 Export Data</button>
+    <button onclick="location.href='milestones.html'">🌟 Share Milestones</button>
+    <button id="logoutBtn">🚪 Logout</button>
+  </div>
+
+  <div class="main-content">
+    <h2>📤 Export Your Financial Data</h2>
+    <section class="dashboard-section">
+      <p>Download your personal expenses as a file for backup or sharing.</p>
+      <button id="exportCSV">Export to CSV</button>
+      <button id="exportPDF">Export to PDF</button>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <script type="module" src="../JS/export.js"></script>
+</body>
+</html>

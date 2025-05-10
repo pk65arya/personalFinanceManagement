@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milestones - Finance Manager</title>
+  <link rel="stylesheet" href="../CSS/dashboard.css" />
+  <style>
+    .milestone-message {
+      background: #ecf0f1;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .milestone-message button {
+      margin-top: 10px;
+      background: #27ae60;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .milestone-message button:hover {
+      background: #219150;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Finance Manager</h2>
+    <button onclick="location.href='dashboard.html'">🏠 Dashboard</button>
+    <button onclick="location.href='export.html'">📤 Export Data</button>
+    <button onclick="location.href='milestones.html'">🌟 Share Milestones</button>
+    <button id="logoutBtn">🚪 Logout</button>
+  </div>
+
+  <div class="main-content">
+    <h2>🌟 Financial Milestones</h2>
+    <section class="dashboard-section milestone-message" id="milestone-section">
+      <p>Checking your progress...</p>
+    </section>
+  </div>
+
+  <script type="module" src="../JS/milestones.js"></script>
+</body>
+</html>

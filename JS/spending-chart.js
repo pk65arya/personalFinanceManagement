@@ -1,4 +1,4 @@
-import { db } from '../JS/firbase-config.js';
+import { auth, db } from '../JS/firbase-config.js';
 import {
   collection,
   query,
@@ -8,9 +8,18 @@ import {
 
 const spendingChartElement = document.getElementById('spending-chart').getContext('2d');
 
-async function getSpendingData() {
+// Wait for user to be authenticated
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    window.location.href = "login.html"; // redirect if not logged in
+    return;
+  }
+  await createChart(user.uid);
+});
+
+async function getSpendingData(userId) {
   try {
-    const q = query(collection(db, 'expenses'));
+    const q = query(collection(db, 'expenses'), where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
     const categoryData = {};
 
@@ -35,8 +44,8 @@ async function getSpendingData() {
   }
 }
 
-async function createChart() {
-  const data = await getSpendingData();
+async function createChart(userId) {
+  const data = await getSpendingData(userId);
   const categories = Object.keys(data);
   const amounts = Object.values(data);
 
@@ -70,5 +79,3 @@ async function createChart() {
     }
   });
 }
-
-createChart();

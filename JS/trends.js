@@ -1,6 +1,8 @@
-import { db } from '../JS/firbase-config.js';
+import { auth, db } from '../JS/firbase-config.js';
 import {
   collection,
+  query,
+  where,
   getDocs
 } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
@@ -11,9 +13,19 @@ function formatMonthYear(dateStr) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 }
 
-async function getMonthlySpendingData() {
+// Wait for user to be authenticated
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+  renderMonthlyChart(user.uid);
+});
+
+async function getMonthlySpendingData(userId) {
   try {
-    const snapshot = await getDocs(collection(db, 'expenses'));
+    const q = query(collection(db, 'expenses'), where("userId", "==", userId));
+    const snapshot = await getDocs(q);
     const monthMap = {};
 
     snapshot.forEach((doc) => {
@@ -41,8 +53,8 @@ async function getMonthlySpendingData() {
   }
 }
 
-async function renderMonthlyChart() {
-  const { months, totals } = await getMonthlySpendingData();
+async function renderMonthlyChart(userId) {
+  const { months, totals } = await getMonthlySpendingData(userId);
 
   if (months.length === 0) {
     document.querySelector('.chart-container').innerHTML += "<p>No data available.</p>";
@@ -80,5 +92,3 @@ async function renderMonthlyChart() {
     }
   });
 }
-
-renderMonthlyChart();

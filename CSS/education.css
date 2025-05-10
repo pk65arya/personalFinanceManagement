@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background: #0077cc;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+.articles {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card a {
+  color: #0077cc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .articles {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .card {
+    flex: 1 1 30%;
+  }
+}

@@ -55,7 +55,7 @@ async function displayBudgetsWithSpending(userId) {
         </div>
       `;
 
-      if (spent > budget.amount) {
+      if (spent >= budget.amount) {
         showBudgetExceededNotification(budget.category);
       }
     });
