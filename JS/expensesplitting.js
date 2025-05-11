@@ -1,151 +1,135 @@
 import { auth, db } from "../JS/firbase-config.js";
+
+
 import {
   collection,
   addDoc,
   getDocs,
   query,
   where,
-  serverTimestamp,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// DOM Elements
-const splitExpenseForm = document.getElementById("splitExpenseForm");
-const splitExpensesDisplay = document.getElementById("splitExpensesDisplay");
 const createGroupForm = document.getElementById("createGroupForm");
-const groupSelectContainer = document.getElementById("groupSelectContainer");
-const expenseSection = document.getElementById("expenseSection");
+const groupNameInput = document.getElementById("groupName");
+const memberEmailsInput = document.getElementById("memberEmails");
 
-// Selected Group
+const groupSelect = document.getElementById("groupSelect");
+const expenseForm = document.getElementById("splitExpenseForm");
+const expenseDisplay = document.getElementById("splitExpensesDisplay");
+
+
 let selectedGroupId = null;
 
-// Fetch and Display User Groups
-async function fetchAndDisplayGroups() {
+async function loadGroups() {
   const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to view your groups.");
+  if (!user) return;
 
   const q = query(collection(db, "sharedGroups"), where("members", "array-contains", user.email));
   const snapshot = await getDocs(q);
+  groupSelect.innerHTML = `<option value="">-- Select Group --</option>`;
 
-  if (snapshot.empty) {
-    groupSelectContainer.innerHTML = "<p>No groups found. Please create one.</p>";
-    return;
-  }
-
-  let html = `<select id="groupSelect" onchange="selectGroup(event)">
-                <option value="" disabled selected>Select a group</option>`;
-
-  snapshot.forEach((doc) => {
+  snapshot.forEach(doc => {
     const group = doc.data();
-    html += `<option value="${doc.id}">${group.groupName}</option>`;
+    groupSelect.innerHTML += `<option value="${doc.id}">${group.groupName}</option>`;
   });
-
-  html += "</select>";
-  groupSelectContainer.innerHTML = html;
 }
 
-// Show the expenses for the selected group
-async function displaySplitExpenses(groupId) {
-  const q = query(collection(db, "groupExpenses"), where("groupId", "==", groupId));
-  const snapshot = await getDocs(q);
-
-  let html = "";
-  if (snapshot.empty) {
-    html = "<p>No expenses recorded yet for this group.</p>";
-  } else {
-    snapshot.forEach((doc) => {
-      const expense = doc.data();
-      html += `
-        <div class="expense-card">
-          <h4>${expense.expenseName}</h4>
-          <p><strong>Total Amount:</strong> $${expense.totalAmount.toFixed(2)}</p>
-          <p><strong>Split Among:</strong> ${expense.splitAmong} people</p>
-          <p><strong>Each Pays:</strong> $${expense.splitPerPerson.toFixed(2)}</p>
-        </div>
-      `;
-    });
-  }
-
-  splitExpensesDisplay.innerHTML = html;
-}
-
-// Add Expense to Selected Group
-splitExpenseForm.addEventListener("submit", async (e) => {
+// Create group
+createGroupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to add a split expense.");
+  if (!user) return alert("You must be logged in.");
 
-  if (!selectedGroupId) {
-    return alert("Please select a group to add expenses.");
-  }
+  const groupName = groupNameInput.value.trim();
+  const emails = memberEmailsInput.value.split(",").map(e => e.trim());
+  if (!groupName || emails.length === 0) return alert("Fill all fields.");
 
-  const expenseName = document.getElementById("expenseName").value.trim();
-  const totalAmount = parseFloat(document.getElementById("totalAmount").value);
-  const splitAmount = parseInt(document.getElementById("splitAmount").value);
-
-  if (!expenseName || isNaN(totalAmount) || isNaN(splitAmount) || splitAmount <= 0) {
-    return alert("Please fill out all fields correctly.");
-  }
-
-  const splitPerPerson = parseFloat((totalAmount / splitAmount).toFixed(2));
+  if (!emails.includes(user.email)) emails.push(user.email);
 
   try {
-    // Add expense to Firestore under the selected group
+    await addDoc(collection(db, "sharedGroups"), {
+      groupName,
+      members: emails,
+      createdBy: user.uid,
+      createdAt: serverTimestamp()
+    });
+    alert("Group created!");
+    groupNameInput.value = "";
+    memberEmailsInput.value = "";
+    loadGroups();
+  } catch (err) {
+    console.error("Error creating group:", err);
+    alert("Could not create group.");
+  }
+});
+
+// Select group
+groupSelect.addEventListener("change", () => {
+  selectedGroupId = groupSelect.value;
+  if (selectedGroupId) loadExpenses(selectedGroupId);
+});
+
+// Add expense
+expenseForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const user = auth.currentUser;
+  if (!user) return alert("You must be logged in.");
+  if (!selectedGroupId) return alert("Please select a group.");
+
+  const name = document.getElementById("expenseName").value.trim();
+  const total = parseFloat(document.getElementById("totalAmount").value);
+  const people = parseInt(document.getElementById("splitAmount").value);
+
+  if (!name || isNaN(total) || isNaN(people) || people <= 0) {
+    return alert("Please enter valid data.");
+  }
+
+  const each = parseFloat((total / people).toFixed(2));
+
+  try {
     await addDoc(collection(db, "groupExpenses"), {
       groupId: selectedGroupId,
       userId: user.uid,
-      expenseName,
-      totalAmount,
-      splitAmong: splitAmount,
-      splitPerPerson,
-      timestamp: serverTimestamp(),
+      expenseName: name,
+      totalAmount: total,
+      splitAmong: people,
+      splitPerPerson: each,
+      timestamp: serverTimestamp()
     });
-
-    alert("Expense recorded successfully!");
-    document.getElementById("expenseName").value = '';
-    document.getElementById("totalAmount").value = '';
-    document.getElementById("splitAmount").value = '';
-
-    await displaySplitExpenses(selectedGroupId);  // Refresh the displayed expenses
-  } catch (error) {
-    console.error("Error adding split expense:", error);
-    alert("Something went wrong. Please try again.");
+    expenseForm.reset();
+    loadExpenses(selectedGroupId);
+  } catch (err) {
+    console.error("Add expense failed:", err);
+    alert("Failed to add expense.");
   }
 });
 
-// Handle group selection
-function selectGroup(event) {
-  selectedGroupId = event.target.value;
-  expenseSection.style.display = "block";  // Show the expense section
-  displaySplitExpenses(selectedGroupId); // Display expenses for the selected group
+// Load expenses
+async function loadExpenses(groupId) {
+  const q = query(collection(db, "groupExpenses"), where("groupId", "==", groupId));
+  const snapshot = await getDocs(q);
+  expenseDisplay.innerHTML = "";
+
+  if (snapshot.empty) {
+    expenseDisplay.innerHTML = "<p>No expenses found.</p>";
+    return;
+  }
+
+  snapshot.forEach(doc => {
+    const e = doc.data();
+    expenseDisplay.innerHTML += `
+      <div class="expense-card">
+        <h4>${e.expenseName}</h4>
+        <p><strong>Total:</strong> $${e.totalAmount.toFixed(2)}</p>
+        <p><strong>Split Among:</strong> ${e.splitAmong}</p>
+        <p><strong>Each Pays:</strong> $${e.splitPerPerson.toFixed(2)}</p>
+      </div>
+    `;
+  });
 }
 
-// Create New Group
-createGroupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const user = auth.currentUser;
-  if (!user) return alert("You must be logged in to create a group.");
-
-  const groupName = document.getElementById("groupName").value.trim();
-  if (!groupName) return alert("Please enter a group name.");
-
-  try {
-    // Add new group to Firestore
-    await addDoc(collection(db, "sharedGroups"), {
-      groupName,
-      members: [user.email],
-      creator: user.email,
-      timestamp: serverTimestamp(),
-    });
-
-    alert("Group created successfully!");
-    await fetchAndDisplayGroups(); // Refresh group selection
-  } catch (error) {
-    console.error("Error creating group:", error);
-    alert("Something went wrong. Please try again.");
-  }
+// Init
+auth.onAuthStateChanged(user => {
+  if (user) loadGroups();
 });
-
-// Initial setup
-fetchAndDisplayGroups();
