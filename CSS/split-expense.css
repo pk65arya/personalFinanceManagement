@@ -1,57 +1,111 @@
+/* Global Styles */
 body {
   font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
   margin: 0;
-  padding: 20px;
-  background-color: #f4f6f9;
-  color: #333;
+  padding: 0;
 }
 
 .container {
   max-width: 900px;
-  margin: auto;
-  background: white;
-  padding: 25px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-h2, h3 {
-  color: #007bff;
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
 }
 
+h3 {
+  color: #34495e;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
 form {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 input[type="text"],
 input[type="number"],
-textarea,
 select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  margin-bottom: 12px;
+  padding: 12px 14px;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
+input:focus,
+select:focus {
+  border-color: #3498db;
+}
+
+/* Buttons */
 button {
-  padding: 10px 16px;
-  background-color: #007bff;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #2980b9;
+}
+
+/* Sections */
+.group-section,
+#expenseSection {
+  background-color: #f0f4f8;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+/* Expenses Display */
+#expensesDisplay {
+  margin-top: 20px;
 }
 
 .expense-card {
-  background-color: #e9f0fb;
-  padding: 15px;
-  margin-top: 10px;
-  border-radius: 6px;
+  background: #ffffff;
+  border-left: 6px solid #3498db;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.expense-card h4 {
+  margin: 0 0 8px;
+  color: #2c3e50;
+}
+
+.expense-card p {
+  margin: 4px 0;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  button {
+    width: 100%;
+  }
 }
